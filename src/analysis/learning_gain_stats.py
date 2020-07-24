@@ -40,11 +40,11 @@ DISPLAY = False
 
 # task types in alphabetical order
 TASK_TYPES = (
-    'mastery.analytics',
-    'mastery.challenge',
-    'mastery.coach',
-    'mastery.mastery',
-    'mastery.review',
+    'mainy.analytics',
+    'mainy.challenge',
+    'mainy.coach',
+    'mainy.mainy',
+    'mainy.review',
     'practice',
 )
 
@@ -238,16 +238,16 @@ def graph_engagement_ratio(data, n, min_problems=0):
 
     # exclude None types here
     cnt_analytics = eng[0]
-    cnt_mastery = np.sum(eng[:-2], axis=0)
+    cnt_mainy = np.sum(eng[:-2], axis=0)
     cnt_total = np.sum(eng[:-1], axis=0)
 
     plt.figure()
     plt.title('Engagement Ratios (Min Problems: %d)' % min_problems)
     plt.xlabel('Problem Number')
     plt.ylabel('Ratio Between Problem Types')
-    plt.plot(cnt_analytics / cnt_mastery, label='analytics/mastery')
+    plt.plot(cnt_analytics / cnt_mainy, label='analytics/mainy')
     plt.plot(cnt_analytics / cnt_total, label='analytics/all')
-    plt.plot(cnt_mastery / cnt_total, label='mastery/all')
+    plt.plot(cnt_mainy / cnt_total, label='mainy/all')
     plt.legend(loc='center right', ncol=1)
     plt.legend()
     graph_and_save('engagement_ratio', n, min_problems)
@@ -324,7 +324,7 @@ def graph_analytics(data, n, min_problems=0):
         m = min(len(task_types), n)
         eng[:m] += 1
         for i in xrange(m):
-            if task_types[i] == 0:  # corresponds to mastery.analytics
+            if task_types[i] == 0:  # corresponds to mainy.analytics
                 count += 1
                 if first_index is None:
                     first_index = i
@@ -419,7 +419,7 @@ def graph_analytics_accuracy(data, n, min_problems=0):
         m = min(len(task_types), n)
         for i in xrange(m):
             task_type = task_types[i]
-            if task_type == 0:  # mastery.analytics
+            if task_type == 0:  # mainy.analytics
                 correct[i] += corrects[i]
                 total[i] += 1
 
@@ -446,7 +446,7 @@ def graph_analytics_accuracy(data, n, min_problems=0):
             if task_type >= 5:  # practice (reset)
                 j = 0
                 continue
-            if task_type == 0:  # mastery.analytics
+            if task_type == 0:  # mainy.analytics
                 correct[j] += corrects[i]
                 total[j] += 1
             j += 1
@@ -454,13 +454,13 @@ def graph_analytics_accuracy(data, n, min_problems=0):
     plt.figure()
     plt.title('Analytics Cards Accuracy '
               '(Min Problems: %d)' % min_problems)
-    plt.xlabel('Problem Number (Within Mastery Challenge)')
+    plt.xlabel('Problem Number (Within Mainy Challenge)')
     plt.ylabel('Percent Correct')
     acc = normalize_zero(correct, total)
     print "Accuracy for %s:\n%s\n" % (TASK_TYPES[0], acc)
     print "Totals for %s:\n%s\n" % (TASK_TYPES[0], total)
     plt.plot(acc)
-    graph_and_save('analytics_accuracy_mastery', n, min_problems)
+    graph_and_save('analytics_accuracy_mainy', n, min_problems)
 
 
 def graph_accuracy_delta_by_population(analytics_data, problem_counts,
@@ -519,12 +519,12 @@ def graph_analytics_multi_sample(data, n, min_problems=0, num_samples=5,
     # for task_types, corrects in data:
     for task_types, corrects, alternative in data:
         m = min(len(task_types), n)
-        num_mastery = 0
+        num_mainy = 0
         cards = []
         for i in xrange(m):
             if task_types[i] <= 4:
-                num_mastery += 1
-            if task_types[i] == 0:  # mastery.analytics
+                num_mainy += 1
+            if task_types[i] == 0:  # mainy.analytics
                 cards.append((i, corrects[i]))
         if len(cards) >= 2:
             analytics_data.append(cards)

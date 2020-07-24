@@ -29,11 +29,11 @@ DISPLAY = False
 
 # task types in alphabetical order
 TASK_TYPES = (
-    'mastery.analytics',
-    'mastery.challenge',
-    'mastery.coach',
-    'mastery.mastery',
-    'mastery.review',
+    'mainy.analytics',
+    'mainy.challenge',
+    'mainy.coach',
+    'mainy.mainy',
+    'mainy.review',
     'practice',
 )
 
@@ -113,7 +113,7 @@ def graph_analytics_by_time(data, n, min_problems=0):
         m = min(len(task_types), n)
         for i in xrange(m):
             task_type = task_types[i]
-            if task_type == 0:  # mastery.analytics
+            if task_type == 0:  # mainy.analytics
                 date = unix_time_to_date(times[i])
                 if date in correct:
                     correct[date] += corrects[i]
@@ -133,7 +133,7 @@ def graph_analytics_by_time(data, n, min_problems=0):
         m = min(len(task_types), n)
         for i in xrange(m):
             task_type = task_types[i]
-            if task_type == 0:  # mastery.analytics
+            if task_type == 0:  # mainy.analytics
                 exercise = exercises[i]
                 if exercise not in exercises_by_date[first_date]:
                     continue
